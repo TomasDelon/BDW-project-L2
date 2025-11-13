@@ -1,0 +1,23 @@
+{% macro tab_instances(attributes, instances) -%}
+{% if attributes %}
+    <table class="table-striped">
+        <thead style="background-color:#646a70;color:white;">
+            <tr>
+                {% for att in attributes %}
+                    <th>{{ att }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for instance in instances %}
+                <tr>
+                {% for val in instance %}
+                    <td>{{ val }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{%- endmacro %}
+

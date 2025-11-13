@@ -1,0 +1,6 @@
+2025-07-17 23:36:26.320570 - affichage des données
+2025-07-17 23:36:28.713251 - consultation de la page ajouter série
+2025-07-17 23:36:31.213002 - consultation de la page recherche
+2025-07-17 23:36:33.498182 - consultation de la page recherche
+2025-07-17 23:36:36.252335 - consultation de l'historique
+2025-07-17 23:36:38.543843 - consultation de l'historique

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from 'macro_message.html' import print_message with context %}
+
+{% block main_content %}
+<h2>Accueil</h2>
+
+<p>La base de données {{ SESSION['DATABASE'] }} contient <strong>{{ SESSION['schemas'] | length }} schémas</strong> et <strong>{{ SESSION['nb_tables_user'] }} tables</strong>.
+</p>
+<p>
+    Liste ordonnée des schémas : {{ SESSION['schemas'] }}
+</p>
+
+{% if REQUEST_VARS['message']  %}
+    {{ print_message(REQUEST_VARS['message'], REQUEST_VARS['message_class']) }}
+{% endif %}
+
+<h2>Tutoriel utilisation de l'application</h2>
+
+<div style="width: 800px; text-align: center;">
+    <figure>
+        <img src="{{ SESSION['DIRECTORY'] }}/static/img/bips-donnees.png" style="border: 2px solid black; object-fit: contain; width:100%; height: auto;">
+        <figcaption>Écran principal de BIPS avec l'affichage d'une table (schéma relationnel et données). Le bouton <code>Rafraichir</code> permet de mettre à jour la liste des répertoires schémas (dans le menu).</figcaption>
+    </figure>
+    <p></p>
+    <figure>
+        <img src="{{ SESSION['DIRECTORY'] }}/static/img/bips-query2.png" style="border: 2px solid black; object-fit: contain; width:100%; height: auto;">
+        <figcaption>Écran de requêtage SQL, avec le résultat dessous (erreur ou données).</figcaption>
+    </figure>
+    <figure>
+        <img src="{{ SESSION['DIRECTORY'] }}/static/img/bips-logs.png" style="border: 2px solid black; object-fit: contain; width:100%; height: auto;">
+        <figcaption>Panel de requêtes déjà exécutées.</figcaption>
+    </figure>
+</div>
+
+{% endblock %}

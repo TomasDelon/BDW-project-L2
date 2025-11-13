@@ -1,0 +1,7 @@
+<form id="form_requete_sql" method="post" class="pl4">
+    <textarea id="textarea_requete_sql" name="requete_sql" cols=80 rows=8 placeholder="select * from ...">{% if REQUEST_VARS['query_result'] %}{{ REQUEST_VARS['query_result'].query }}{% endif %}</textarea>
+    <p>
+        <input type="submit" name="bouton-query" style="padding: 0.5em 1em;" style="font-size: 1.5em;" value="Exécuter la requête">
+    </p>
+</form>
+

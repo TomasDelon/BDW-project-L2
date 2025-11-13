@@ -1,0 +1,25 @@
+{% if SESSION['schema_to_tables'] %}
+<nav class="p05">
+    <div class="flex-around">
+      <form action="/" method="post">
+        <button name="bouton-refresh" value="refresh-needed"><img width="28px" src="{{ SESSION['DIRECTORY'] }}/static/img/refresh.png" title="Rafraichir la liste des schémas" alt="Refresh" /></button>
+      </form>
+      <form action="/query" method="post">
+        <button><img width="28px" src="{{ SESSION['DIRECTORY'] }}/static/img/psql.png" title="Editeur SQL" alt="Editeur SQL" /></button>
+      </form>
+      <button onclick="toggle_log_panel()"><img width="28px" src="{{ SESSION['DIRECTORY'] }}/static/img/old-queries.png" title="Log des requêtes" alt="Log des requêtes" /></button>
+    </div>
+    <ul style="list-style-type: none;">
+      {% for sch, list_tab in SESSION['schema_to_tables'].items() %}
+      <li class="mb05 valign-middle"><img width="24px" src="{{ SESSION['DIRECTORY'] }}/static/img/schema.png" class="valign-middle"> <strong class="valign-middle"><a class="lien-bleu" href="/s/{{ sch }}">{{ sch }}</strong></a></li>
+        {% if sch == REQUEST_VARS['current_schema'] %}
+          <ul class="mb05">
+          {% for tab in list_tab %}
+          <li class="mb05"><a class="lien-bleu" href="/t/{{ sch }}/{{ tab }}">{{ tab }}</a></li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endfor %}
+    </ul>
+</nav>
+{% endif %}

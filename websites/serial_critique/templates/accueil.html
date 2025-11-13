@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<h2>Le site de critique sur les séries pour le cours de BDW</h2>
+
+<p id="parag_description">
+	Vous pouvez gérer des séries, des épisodes, et les acteur.ice.s.
+	<br>
+	Utilisez le menu à gauche pour découvrir les fonctionnalités de ce site.
+</p>
+
+<p>Que faire sur ce site ?</p>
+<ul>
+	<li>Afficher les données de la base</li>
+	<li>Ajouter une série</li>
+	<li>Rechercher une série ou une actrice</li>
+	<li>Générer un historique de votre activité sur le site</li>
+	<li>...</li>
+</ul>
+
+<div>
+	<img src="{{ SESSION['DIRECTORY'] }}/static/img/top-series.jpg" />
+</div>
+
+{% include 'message.html' %}
+
+{% endblock %}

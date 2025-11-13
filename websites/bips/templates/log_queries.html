@@ -1,0 +1,13 @@
+<div id="panel-log-queries">
+    <h3>Liste des dernières requêtes soumises</h3>
+    {% if SESSION['old_queries'] | length > 0 %}
+        <ol>
+            {% for q in SESSION['old_queries'] | reverse %}
+                <li><pre>{{ q }} <span class="float-right" onclick="navigator.clipboard.writeText(`{{ q }}`);"><img class="copy" width="20px" src="{{ SESSION['DIRECTORY'] }}/static/img/copy.png" title="Copier" alt="Copy to clipboard" /></span></pre></li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p>Aucune ancienne requête.</p>
+    {% endif %}
+</div>
+

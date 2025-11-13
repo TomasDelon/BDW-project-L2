@@ -1,0 +1,6 @@
+2024-12-04 14:38:52.611052 - consultation de la page recherche
+2024-12-04 14:38:56.960945 - consultation de la page recherche
+2024-12-04 14:38:59.705080 - affichage des données
+2024-12-04 14:39:02.347856 - consultation de la page ajouter série
+2024-12-04 14:39:03.566892 - consultation de l'historique
+2024-12-04 14:39:05.599240 - consultation de l'historique

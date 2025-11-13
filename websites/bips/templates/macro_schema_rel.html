@@ -1,0 +1,18 @@
+{% macro schema_relationnel(table, atts) -%}
+<img width="24px" src="{{ SESSION['DIRECTORY'] }}/static/img/database-table.png"> 
+<strong>{{ table }}</strong> (
+    {% for tuple in atts %}
+        {%- if tuple[2].find('PRIMARY') != -1 and tuple[2].find('FOREIGN') != -1  %}
+            <span class="primary-key">#{{ tuple[0] }}</span>
+        {%- elif tuple[2].find('PRIMARY') != -1 %}
+            <span class="primary-key">{{ tuple[0] }}</span>
+        {%- elif tuple[2].find('FOREIGN') != -1 %}
+            <span>#{{ tuple[0] }}</span>
+        {%- else %}
+            <span>{{ tuple[0] }}</span>
+        {%- endif %}
+        {{- "" if loop.last else ", " -}}
+    {% endfor %}
+)
+{%- endmacro %}
+

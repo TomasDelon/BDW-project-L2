@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from 'macro_schema_rel.html' import schema_relationnel with context %}
+{% from 'macro_instances.html' import tab_instances with context %}
+{% from 'macro_message.html' import print_message with context %}
+
+{% block main_content %}
+<h2>Table {{ REQUEST_VARS['current_table'] }}</h2>
+
+{% if SESSION['schemas_to_tables_to_atts'][REQUEST_VARS['current_schema']][REQUEST_VARS['current_table']]  %}
+    <p class="pl4" style="font-size: larger; word-spacing: 2px; line-height: 1.5;">
+        {{ schema_relationnel(REQUEST_VARS['current_table'], SESSION['schemas_to_tables_to_atts'][REQUEST_VARS['current_schema']][REQUEST_VARS['current_table']]) }}
+    </p>
+{% else %}
+    {{ print_message(REQUEST_VARS['message'], REQUEST_VARS['message_class']) }}
+{% endif %}
+
+{% if REQUEST_VARS['query_result']  %}
+    {{ tab_instances(REQUEST_VARS['query_result'].result_attributes, REQUEST_VARS['query_result'].result_instances) }}
+{% else %}
+    <p>Aucune instance dans la table.</p>
+{% endif %}
+
+{% endblock %}

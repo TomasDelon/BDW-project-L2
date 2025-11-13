@@ -1,0 +1,20 @@
+<header>
+    <span style="flex:1; padding: 0.25em">
+      <a href="/"><img src="{{ SESSION['DIRECTORY'] }}/static/img/logo.png" width="75%"></a>
+    </span>
+    <h1 class="center" style="flex:7;">{{ SESSION['APP'] }} - {{ SESSION['BASELINE'] }}</h1>
+    <aside style="flex:2;">
+        <p class="float-right" style="margin-right: 1em;">
+          <img width="16px" src="{{ SESSION['DIRECTORY'] }}/static/img/server.png"><strong> Server : </strong>{{ SESSION['SERVER'] }}
+          <br>
+          <img width="16px" src="{{ SESSION['DIRECTORY'] }}/static/img/user.png"><strong> User : </strong>{{ SESSION['USER'] }}
+          <br>
+          <img width="16px" src="{{ SESSION['DIRECTORY'] }}/static/img/database.png"><strong> Database : </strong>{{ SESSION['DATABASE'] }}
+        </p>
+      </aside>
+      <form action="/logout" method="post" class="mt1 mr05">
+        <button class="float-right"><img width="28px" src="{{ SESSION['DIRECTORY'] }}/static/img/exit.png" title="Quitter" alt="Quitter" /></button>
+      </form>
+  </div>
+</header>
+

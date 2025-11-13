@@ -1,0 +1,22 @@
+{% from 'macro_message.html' import print_message with context %}
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <base href="/">
+  <link type="text/css" rel="stylesheet" href="websites/bips/static/css/style.css" /><!-- required hardcoded path-->
+  <link rel="shortcut icon" href="websites/bips/static/img/favicon.ico" /><!-- required hardcoded path-->
+  <title>Déconnexion</title>
+</head>
+
+<body>
+<main class="center m2">
+
+  {{ print_message("Vous avez été déconnecté.e de l'application.", 'success') }}
+
+  <p><small>Pour revenir sur l'application, il faut relancer le serveur.</small></p>
+
+</main>
+</body>
+</html>
