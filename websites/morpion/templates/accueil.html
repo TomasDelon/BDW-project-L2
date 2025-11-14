@@ -1,27 +1,105 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-<h2>Le site de critique sur les séries pour le cours de BDW</h2>
+<section class="hero">
+  <h2>⚔️ Bienvenue dans l'arène des Morpions ⚔️</h2>
+  <p>
+    Composez vos équipes, expérimentez des configurations de partie et surveillez leur performance.
+    Cette page rassemble les statistiques principales nécessaires pour préparer vos futures victoires.
+  </p>
+</section>
 
-<p id="parag_description">
-	Vous pouvez gérer des séries, des épisodes, et les acteur.ice.s.
-	<br>
-	Utilisez le menu à gauche pour découvrir les fonctionnalités de ce site.
-</p>
+<section class="stats-cards">
+  <h3>📊 Comptes instances (dev data)</h3>
+  <div class="cards-grid">
+    {% for compteur in REQUEST_VARS['stats']['counts'] %}
+    <article class="card">
+      <p class="card-label">{{ compteur.table|replace('_', ' ')|title }}</p>
+      <p class="card-value">{{ compteur.count }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
 
-<p>Que faire sur ce site ?</p>
-<ul>
-	<li>Afficher les données de la base</li>
-	<li>Ajouter une série</li>
-	<li>Rechercher une série ou une actrice</li>
-	<li>Générer un historique de votre activité sur le site</li>
-	<li>...</li>
-</ul>
+<section class="top-teams">
+  <h3>🏆 Top {{ REQUEST_VARS['stats']['top_teams']|length }} équipes victorieuses</h3>
+  {% if REQUEST_VARS['stats']['top_teams'] %}
+  <table>
+    <thead>
+      <tr>
+        <th>Rang</th>
+        <th>Équipe</th>
+        <th>Victoires</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team in REQUEST_VARS['stats']['top_teams'] %}
+      <tr>
+        <td>#{{ loop.index }}</td>
+        <td><strong>{{ team.name }}</strong></td>
+        <td>{{ team.wins }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+    Aucun match terminé n'a encore été enregistré.
+  </p>
+  {% endif %}
+</section>
 
-<div>
-	<img src="{{ SESSION['DIRECTORY'] }}/static/img/top-series.jpg" />
-</div>
+<section class="durations">
+  <h3>⏱️ Durées des parties clôturées</h3>
+  <ul>
+    <li>
+      <strong>Partie la plus rapide :</strong>
+      {% if REQUEST_VARS['stats']['fastest_game'] %}
+        <span style="color: var(--accent-cyan);">#{{ REQUEST_VARS['stats']['fastest_game']['id_game'] }}</span> — 
+        <span style="color: var(--accent-gold);">{{ REQUEST_VARS['stats']['fastest_game']['duration'] }}</span>
+      {% else %}
+        <span style="color: var(--text-secondary);">en attente de données.</span>
+      {% endif %}
+    </li>
+    <li>
+      <strong>Partie la plus longue :</strong>
+      {% if REQUEST_VARS['stats']['longest_game'] %}
+        <span style="color: var(--accent-cyan);">#{{ REQUEST_VARS['stats']['longest_game']['id_game'] }}</span> — 
+        <span style="color: var(--accent-gold);">{{ REQUEST_VARS['stats']['longest_game']['duration'] }}</span>
+      {% else %}
+        <span style="color: var(--text-secondary);">en attente de données.</span>
+      {% endif %}
+    </li>
+  </ul>
+</section>
+
+<section class="logs">
+  <h3>📝 Moyenne de lignes de journalisation par mois</h3>
+  {% if REQUEST_VARS['stats']['avg_logs'] %}
+  <table>
+    <thead>
+      <tr>
+        <th>Année</th>
+        <th>Mois</th>
+        <th>Moyenne</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in REQUEST_VARS['stats']['avg_logs'] %}
+      <tr>
+        <td>{{ row.year }}</td>
+        <td>{{ "%02d"|format(row.month) }}</td>
+        <td><strong>{{ "%.2f"|format(row.avg_logs) }}</strong></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+    Les journaux n'ont pas encore été générés.
+  </p>
+  {% endif %}
+</section>
 
 {% include 'message.html' %}
-
 {% endblock %}

@@ -4,4 +4,4 @@ POSTGRESQL_SERVER = "bd-pedago.univ-lyon1.fr"
 POSTGRESQL_USER = "p2415813"  # à remplacer par votre numéro étudiant
 POSTGRESQL_PASSWORD = "Undoing!Latrine_17"  # à remplacer par le mot de passe fourni dans Tomuss (pas votre mot de passe UCBL !)
 POSTGRESQL_DATABASE = "p2415813"  # à remplacer par votre numéro étudiant
-POSTGRESQL_SCHEMA = "series"  # à remplacer par le nom du schéma contenant vos tables (public, tp1, series, ...)
+POSTGRESQL_SCHEMA = "morpion"  # à remplacer par le nom du schéma contenant vos tables (public, tp1, series, ...)
