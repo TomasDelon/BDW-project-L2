@@ -78,10 +78,10 @@ def execute_select_query_dict(connexion, query, params=None):
     if params is None:
         params = []
     try:
-        cursor = connexion.cursor()
-        cursor.row_factory = dict_row  # ligne importante
-        cursor.execute(query, params)
-        return cursor.fetchall()       # liste de dict
+        with connexion.cursor() as cursor:
+            cursor.row_factory = dict_row  # ligne importante
+            cursor.execute(query, params)
+            return cursor.fetchall()       # liste de dict
     except psycopg.Error as e:
         logger.error(e)
     return None
@@ -137,43 +137,67 @@ def get_top_teams_by_wins(connexion, limit=3):
     """
     return execute_select_query_dict(connexion, query, [limit]) or []
 
-
 def get_fastest_and_longest_games(connexion):
     """
-    Retourne la partie la plus rapide et la plus longue.
-
-    Hypothèses :
-      - table game(id, started_at, ended_at, ...)
-      - ended_at peut être NULL si la partie n'est pas terminée.
+    Retourne la partie la plus rapide et la plus longue avec les noms et couleurs
+    des deux équipes et du gagnant.
 
     Résultat :
       (fastest_game, longest_game)
-    où chaque élément est un dict ou None, ex :
+    où chaque élément est un dict ou None, par ex. :
       {
-        "id": 42,
-        "started_at": datetime,
-        "ended_at": datetime,
-        "duration": timedelta
+        "id_game": 1,
+        "started_at": ...,
+        "ended_at": ...,
+        "duration": ...,
+        "team1_id": 1,
+        "team1_name": "Verts furieux",
+        "team1_color": "green",
+        "team2_id": 2,
+        "team2_name": "Bleus calmes",
+        "team2_color": "blue",
+        "winner_id": 1,
+        "winner_name": "Verts furieux",
+        "winner_color": "green"
       }
     """
-    base = """
+    base_query = """
         SELECT
-            id_game,
-            started_at,
-            ended_at,
-            (ended_at - started_at) AS duration
-        FROM game
-        WHERE ended_at IS NOT NULL
+            g.id_game,
+            g.started_at,
+            g.ended_at,
+            g.ended_at - g.started_at AS duration,
+            t1.id_team AS team1_id,
+            t1.name    AS team1_name,
+            t1.color   AS team1_color,
+            t2.id_team AS team2_id,
+            t2.name    AS team2_name,
+            t2.color   AS team2_color,
+            tw.id_team AS winner_id,
+            tw.name    AS winner_name,
+            tw.color   AS winner_color
+        FROM game AS g
+        JOIN team AS t1 ON t1.id_team = g.team1_id
+        JOIN team AS t2 ON t2.id_team = g.team2_id
+        LEFT JOIN team AS tw ON tw.id_team = g.winner_team_id
+        WHERE g.ended_at IS NOT NULL
+        ORDER BY duration {direction}
+        LIMIT 1
     """
 
-    query_fastest = base + " ORDER BY duration ASC LIMIT 1"
-    query_longest = base + " ORDER BY duration DESC LIMIT 1"
+    # Partie la plus rapide
+    fastest_rows = execute_select_query_dict(
+        connexion,
+        base_query.format(direction="ASC"),
+    ) or []
+    fastest = fastest_rows[0] if fastest_rows else None
 
-    fastest_list = execute_select_query_dict(connexion, query_fastest)
-    longest_list = execute_select_query_dict(connexion, query_longest)
-
-    fastest = fastest_list[0] if fastest_list else None
-    longest = longest_list[0] if longest_list else None
+    # Partie la plus longue
+    longest_rows = execute_select_query_dict(
+        connexion,
+        base_query.format(direction="DESC"),
+    ) or []
+    longest = longest_rows[0] if longest_rows else None
 
     return fastest, longest
 

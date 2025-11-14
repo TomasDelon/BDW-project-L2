@@ -43,7 +43,7 @@
     </tbody>
   </table>
   {% else %}
-  <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+  <p class="empty-message">
     Aucun match terminé n'a encore été enregistré.
   </p>
   {% endif %}
@@ -55,19 +55,43 @@
     <li>
       <strong>Partie la plus rapide :</strong>
       {% if REQUEST_VARS['stats']['fastest_game'] %}
-        <span style="color: var(--accent-cyan);">#{{ REQUEST_VARS['stats']['fastest_game']['id_game'] }}</span> — 
-        <span style="color: var(--accent-gold);">{{ REQUEST_VARS['stats']['fastest_game']['duration'] }}</span>
+        <span class="team-name">{{ REQUEST_VARS['stats']['fastest_game']['team1_name'] }}</span>
+        <span class="team-color-badge" style="background-color: {{ REQUEST_VARS['stats']['fastest_game']['team1_color'] }};"></span>
+        <span class="vs-separator">vs</span>
+        <span class="team-name">{{ REQUEST_VARS['stats']['fastest_game']['team2_name'] }}</span>
+        <span class="team-color-badge" style="background-color: {{ REQUEST_VARS['stats']['fastest_game']['team2_color'] }};"></span>
+        {% if REQUEST_VARS['stats']['fastest_game']['winner_name'] %}
+          <span class="arrow-separator">→</span>
+          <span class="winner-name">{{ REQUEST_VARS['stats']['fastest_game']['winner_name'] }}</span>
+          <span class="winner-color-badge" style="background-color: {{ REQUEST_VARS['stats']['fastest_game']['winner_color'] }};"></span>
+        {% else %}
+          <span class="arrow-separator">→</span>
+          <span class="equality-text">Égalité</span>
+        {% endif %}
+        — <span class="duration-value">{{ REQUEST_VARS['stats']['fastest_game']['duration'] }}</span>
       {% else %}
-        <span style="color: var(--text-secondary);">en attente de données.</span>
+        <span class="waiting-data">en attente de données.</span>
       {% endif %}
     </li>
     <li>
       <strong>Partie la plus longue :</strong>
       {% if REQUEST_VARS['stats']['longest_game'] %}
-        <span style="color: var(--accent-cyan);">#{{ REQUEST_VARS['stats']['longest_game']['id_game'] }}</span> — 
-        <span style="color: var(--accent-gold);">{{ REQUEST_VARS['stats']['longest_game']['duration'] }}</span>
+        <span class="team-name">{{ REQUEST_VARS['stats']['longest_game']['team1_name'] }}</span>
+        <span class="team-color-badge" style="background-color: {{ REQUEST_VARS['stats']['longest_game']['team1_color'] }};"></span>
+        <span class="vs-separator">vs</span>
+        <span class="team-name">{{ REQUEST_VARS['stats']['longest_game']['team2_name'] }}</span>
+        <span class="team-color-badge" style="background-color: {{ REQUEST_VARS['stats']['longest_game']['team2_color'] }};"></span>
+        {% if REQUEST_VARS['stats']['longest_game']['winner_name'] %}
+          <span class="arrow-separator">→</span>
+          <span class="winner-name">{{ REQUEST_VARS['stats']['longest_game']['winner_name'] }}</span>
+          <span class="winner-color-badge" style="background-color: {{ REQUEST_VARS['stats']['longest_game']['winner_color'] }};"></span>
+        {% else %}
+          <span class="arrow-separator">→</span>
+          <span class="equality-text">Égalité</span>
+        {% endif %}
+        — <span class="duration-value">{{ REQUEST_VARS['stats']['longest_game']['duration'] }}</span>
       {% else %}
-        <span style="color: var(--text-secondary);">en attente de données.</span>
+        <span class="waiting-data">en attente de données.</span>
       {% endif %}
     </li>
   </ul>
@@ -95,7 +119,7 @@
     </tbody>
   </table>
   {% else %}
-  <p style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+  <p class="empty-message">
     Les journaux n'ont pas encore été générés.
   </p>
   {% endif %}

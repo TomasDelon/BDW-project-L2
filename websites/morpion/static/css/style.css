@@ -79,10 +79,12 @@ header > div {
 }
 
 header img {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     transition: transform 0.3s ease;
+    object-fit: cover;
 }
 
 header img:hover {
@@ -116,8 +118,8 @@ header strong {
    Layout principal
    ============================================ */
 #div-central {
-    /* display: flex; */
-    justify-content: space-between;
+    display: flex;
+    justify-content: flex-start;
     align-items: flex-start;
     max-width: 1600px;
     margin: 0 auto;
@@ -128,10 +130,10 @@ header strong {
 /* ============================================
    Navigation
    ============================================ */
-   nav {
-    position: fixed;
-    left: 1.5rem;
-    top: 8rem;               /* ajusta según la altura de tu header */
+nav {
+    position: sticky;
+    top: 2rem;               /* Se queda pegado cuando el header desaparece */
+    left: 0;
     width: 230px;            /* ancho fijo del menú */
     background: linear-gradient(180deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
     padding: 2rem 1.5rem;
@@ -139,6 +141,8 @@ header strong {
     box-shadow: 0 8px 24px var(--shadow-glow);
     min-height: fit-content;
     z-index: 10;
+    margin-left: 1.5rem;
+    margin-top: 2rem;        /* Espacio inicial debajo del header */
 }
 
 nav a {
@@ -398,6 +402,70 @@ ul {
 }
 
 /* ============================================
+   Classes utilitaires pour les durées de parties
+   ============================================ */
+.empty-message {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 2rem;
+}
+
+.team-name {
+    color: var(--text-secondary);
+}
+
+.team-color-badge {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin: 0 6px;
+    vertical-align: middle;
+    border: 2px solid var(--text-primary);
+    /* background-color se define inline car il est dynamique depuis la BD */
+}
+
+.vs-separator {
+    color: var(--text-secondary);
+    margin: 0 8px;
+}
+
+.arrow-separator {
+    color: var(--text-secondary);
+    margin: 0 8px;
+}
+
+.winner-name {
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+.winner-color-badge {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 8px;
+    vertical-align: middle;
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+    /* background-color se define inline car il est dynamique depuis la BD */
+}
+
+.equality-text {
+    color: var(--text-secondary);
+}
+
+.duration-value {
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+.waiting-data {
+    color: var(--text-secondary);
+}
+
+/* ============================================
    Messages
    ============================================ */
 .alert-error,
@@ -494,12 +562,13 @@ footer a:hover {
     }
 
     nav {
-        flex: 1;
         width: 100%;
         position: static;
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
+        margin-left: 0;
+        margin-top: 1rem;
     }
 
     nav a {
@@ -509,10 +578,16 @@ footer a:hover {
 
     main {
         padding: 1.5rem;
+        max-width: 100%;
     }
 
     header h1 {
         font-size: 2rem;
+    }
+
+    header img {
+        width: 100px;
+        height: 100px;
     }
 
     .cards-grid {
@@ -528,6 +603,11 @@ footer a:hover {
     header h1 {
         font-size: 1.5rem;
         letter-spacing: 1px;
+    }
+
+    header img {
+        width: 80px;
+        height: 80px;
     }
 
     section {
