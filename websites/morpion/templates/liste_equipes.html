@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<section class="teams-list-section">
+  <h2>📋 Liste des équipes</h2>
+  <p class="section-description">
+    Consultez toutes les équipes disponibles et gérez-les. Vous pouvez supprimer une équipe. Si elle est utilisée dans des parties, vous pourrez choisir de supprimer également ces parties (et leurs logs) ou de conserver l'équipe.
+  </p>
+
+  {% include 'message.html' %}
+
+  {% if REQUEST_VARS['team_to_delete'] and REQUEST_VARS['games_to_delete'] %}
+  <div class="confirmation-dialog">
+    <div class="confirmation-content">
+      <h3>⚠️ Confirmation de suppression</h3>
+      <p class="confirmation-message">
+        L'équipe <strong>{{ REQUEST_VARS['team_to_delete'].name }}</strong> est utilisée dans 
+        <strong>{{ REQUEST_VARS['games_to_delete']|length }}</strong> partie(s). 
+        Les logs de ces parties seront également supprimés.
+      </p>
+      
+      <div class="games-to-delete">
+        <h4>Parties concernées :</h4>
+        <ul class="games-list-confirm">
+          {% for game in REQUEST_VARS['games_to_delete'] %}
+          <li>
+            <span style="color: {{ game.team1_color }};">{{ game.team1_name }}</span> 
+            vs 
+            <span style="color: {{ game.team2_color }};">{{ game.team2_name }}</span>
+            ({{ game.started_at.strftime('%d/%m/%Y %H:%M') if game.started_at else 'N/A' }})
+            {% if game.winner_name %} - 🏆 {{ game.winner_name }}{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="confirmation-actions">
+        <form method="POST" class="confirm-delete-form">
+          <input type="hidden" name="team_id" value="{{ REQUEST_VARS['team_to_delete'].id_team }}">
+          <input type="hidden" name="confirm_delete_games" value="yes">
+          <button type="submit" name="bouton_supprimer" class="btn-confirm-delete">
+            ✅ Supprimer l'équipe et les parties
+          </button>
+        </form>
+        <form method="POST" class="cancel-delete-form">
+          <input type="hidden" name="team_id" value="{{ REQUEST_VARS['team_to_delete'].id_team }}">
+          <input type="hidden" name="confirm_delete_games" value="no">
+          <button type="submit" name="bouton_supprimer" class="btn-cancel-delete">
+            ❌ Annuler - Conserver l'équipe
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if REQUEST_VARS['teams'] and REQUEST_VARS['teams']|length > 0 %}
+  <div class="teams-grid">
+    {% for team in REQUEST_VARS['teams'] %}
+    <div class="team-card">
+      <div class="team-header">
+        <div class="team-color-badge-large" style="background-color: {{ team.color }};"></div>
+        <div class="team-info">
+          <h3 class="team-name">{{ team.name }}</h3>
+          <p class="team-meta">
+            <span class="team-color-label">Couleur: <strong>{{ team.color }}</strong></span>
+            <span class="team-date">Créée le: {{ team.created_at.strftime('%d/%m/%Y') if team.created_at else 'N/A' }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="team-morpions">
+        <div class="morpions-header">
+          <h4>Morpions ({{ team.morpion_count }})</h4>
+        </div>
+        {% if team.morpions and team.morpions|length > 0 %}
+        <div class="morpions-mini-grid">
+          {% for morpion in team.morpions %}
+          <div class="morpion-mini-card">
+            {% set img_name = morpion.image_url.split('/')[-1] if '/' in morpion.image_url else morpion.image_url %}
+            <img src="{{ SESSION['DIRECTORY'] }}/static/img/{{ img_name }}" 
+                 alt="{{ morpion.name }}"
+                 onerror="this.src='{{ SESSION['DIRECTORY'] }}/static/img/sheep.png'">
+            <div class="morpion-mini-info">
+              <span class="morpion-mini-name">{{ morpion.name }}</span>
+              <div class="morpion-mini-stats">
+                <span>❤️{{ morpion.hp }}</span>
+                <span>⚔️{{ morpion.attack }}</span>
+                <span>✨{{ morpion.mana }}</span>
+                <span>🎯{{ morpion.accuracy }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-morpions">Aucun morpion dans cette équipe.</p>
+        {% endif %}
+      </div>
+
+      {% if team.games_count and team.games_count > 0 %}
+      <div class="team-games">
+        <div class="games-header">
+          <h4>🎮 Parties associées ({{ team.games_count }})</h4>
+        </div>
+        <div class="games-list">
+          {% for game in team.games %}
+          <div class="game-item">
+            <div class="game-teams">
+              <span class="game-team" style="color: {{ game.team1_color }};">
+                {{ game.team1_name }}
+              </span>
+              <span class="vs">vs</span>
+              <span class="game-team" style="color: {{ game.team2_color }};">
+                {{ game.team2_name }}
+              </span>
+            </div>
+            <div class="game-info">
+              <span class="game-date">
+                {{ game.started_at.strftime('%d/%m/%Y %H:%M') if game.started_at else 'N/A' }}
+              </span>
+              {% if game.ended_at %}
+              <span class="game-status finished">Terminée</span>
+              {% else %}
+              <span class="game-status ongoing">En cours</span>
+              {% endif %}
+              {% if game.winner_name %}
+              <span class="game-winner">🏆 {{ game.winner_name }}</span>
+              {% endif %}
+            </div>
+            <div class="game-config">
+              Grille: {{ game.grid_size }}x{{ game.grid_size }} | Max tours: {{ game.max_turns }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="team-actions">
+        {% if team.games_count and team.games_count > 0 %}
+        <form method="POST" class="delete-form">
+          <input type="hidden" name="team_id" value="{{ team.id_team }}">
+          <button type="submit" name="bouton_supprimer" class="btn-delete">
+            🗑️ Supprimer ({{ team.games_count }} partie(s) associée(s))
+          </button>
+        </form>
+        {% else %}
+        <form method="POST" class="delete-form" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer l\'équipe {{ team.name }} ? Cette action est irréversible.');">
+          <input type="hidden" name="team_id" value="{{ team.id_team }}">
+          <button type="submit" name="bouton_supprimer" class="btn-delete">
+            🗑️ Supprimer
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p class="empty-message">Aucune équipe n'a été créée pour le moment.</p>
+    <a href="equipe" class="btn-create-link">Créer votre première équipe</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
+

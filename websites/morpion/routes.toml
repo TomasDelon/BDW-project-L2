@@ -9,21 +9,11 @@ controleur = "controleurs/accueil.py"
 template = "templates/accueil.html"
 
 [[routes]]
-url = "afficher"
-controleur = "controleurs/afficher.py"
-template = "templates/afficher.html"
+url = "equipe"
+controleur = "controleurs/equipe.py"
+template = "templates/equipe.html"
 
 [[routes]]
-url = "rechercher"
-controleur = "controleurs/rechercher.py"
-template = "templates/rechercher.html"
-
-[[routes]]
-url = "historique"
-controleur = "controleurs/historique.py"
-template = "templates/historique.html"
-
-[[routes]]
-url = "ajouter"
-controleur = "controleurs/ajouter.py"
-template = "templates/ajouter.html"
+url = "liste-equipes"
+controleur = "controleurs/liste_equipes.py"
+template = "templates/liste_equipes.html"

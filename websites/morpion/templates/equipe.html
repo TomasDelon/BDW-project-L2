@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<section class="create-team-section">
+  <h2>⚔️ Créer une nouvelle équipe ⚔️</h2>
+  <p class="section-description">
+    Sélectionnez entre 6 et 8 morpions pour composer votre équipe. Chaque morpion a des caractéristiques uniques !
+  </p>
+
+  {% include 'message.html' %}
+
+  <form method="POST" id="team-form" class="team-creation-form">
+    <div class="form-group">
+      <label for="team_name">Nom de l'équipe :</label>
+      <input type="text" id="team_name" name="team_name" required 
+             placeholder="Ex: Verts furieux" maxlength="80"
+             value="{{ REQUEST_VARS.get('form_team_name', '') }}">
+    </div>
+
+    <div class="form-group">
+      <label for="team_color">Couleur de l'équipe :</label>
+      <input type="text" id="team_color" name="team_color" required 
+             placeholder="Ex: green, red, blue" maxlength="40"
+             value="{{ REQUEST_VARS.get('form_team_color', '') }}">
+      <small>La couleur doit être unique parmi toutes les équipes.</small>
+    </div>
+
+    <div class="deck-info">
+      <div class="deck-counter">
+        <span class="selected-count">{{ REQUEST_VARS.get('form_selected_morpions', [])|length }}</span> / <span class="max-count">8</span> morpions sélectionnés
+      </div>
+      <div class="deck-status">
+        {% set selected_count = REQUEST_VARS.get('form_selected_morpions', [])|length %}
+        {% if selected_count < 6 %}
+          <span class="status-text status-warning">Sélectionnez encore {{ 6 - selected_count }} morpion(s) (minimum 6)</span>
+        {% elif selected_count > 8 %}
+          <span class="status-text status-error">Trop de morpions sélectionnés ! Maximum 8</span>
+        {% else %}
+          <span class="status-text status-success">Parfait ! Votre deck est prêt ({{ selected_count }}/8)</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="morpions-grid">
+      {% for morpion in REQUEST_VARS['morpions'] %}
+      {% set is_selected = morpion.id_morpion in REQUEST_VARS.get('form_selected_morpions', []) %}
+      <div class="morpion-card {% if is_selected %}selected{% endif %}" data-morpion-id="{{ morpion.id_morpion }}">
+        <input type="checkbox" 
+               name="morpions" 
+               value="{{ morpion.id_morpion }}" 
+               id="morpion_{{ morpion.id_morpion }}"
+               class="morpion-checkbox"
+               {% if is_selected %}checked{% endif %}>
+        <label for="morpion_{{ morpion.id_morpion }}" class="card-label">
+          <div class="card-image-container">
+            {% set img_name = morpion.image_url.split('/')[-1] if '/' in morpion.image_url else morpion.image_url %}
+            <img src="{{ SESSION['DIRECTORY'] }}/static/img/{{ img_name }}" 
+                 alt="{{ morpion.name }}"
+                 onerror="this.src='{{ SESSION['DIRECTORY'] }}/static/img/sheep.png'">
+            <div class="card-overlay">
+              <span class="card-checkmark">✓</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-name">{{ morpion.name }}</h3>
+            <div class="card-stats">
+              <div class="stat-item">
+                <span class="stat-icon">❤️</span>
+                <span class="stat-value">{{ morpion.hp }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">⚔️</span>
+                <span class="stat-value">{{ morpion.attack }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">✨</span>
+                <span class="stat-value">{{ morpion.mana }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">🎯</span>
+                <span class="stat-value">{{ morpion.accuracy }}</span>
+              </div>
+            </div>
+            <div class="card-total">
+              Total: <strong>{{ morpion.hp + morpion.attack + morpion.mana + morpion.accuracy }}</strong>
+            </div>
+          </div>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="form-actions">
+      {% set selected_count = REQUEST_VARS.get('form_selected_morpions', [])|length %}
+      <button type="submit" name="bouton_creer" class="btn-create-team" 
+              {% if selected_count < 6 or selected_count > 8 %}disabled{% endif %}>
+        Créer l'équipe
+      </button>
+      <a href="equipe" class="btn-reset">Réinitialiser</a>
+    </div>
+  </form>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const checkboxes = document.querySelectorAll('.morpion-checkbox');
+  const countSpan = document.querySelector('.selected-count');
+  const button = document.querySelector('.btn-create-team');
+  const statusText = document.querySelector('.status-text');
+
+  function updateDeck() {
+    let count = 0;
+    checkboxes.forEach(cb => {
+      if (cb.checked) count++;
+    });
+    
+    // Actualizar el contador
+    if (countSpan) {
+      countSpan.textContent = count;
+    }
+    
+    // Actualizar el estado del botón
+    if (button) {
+      button.disabled = (count < 6 || count > 8);
+    }
+    
+    // Actualizar el mensaje de estado
+    if (statusText) {
+      if (count < 6) {
+        statusText.textContent = `Sélectionnez encore ${6 - count} morpion(s) (minimum 6)`;
+        statusText.className = 'status-text status-warning';
+      } else if (count > 8) {
+        statusText.textContent = 'Trop de morpions sélectionnés ! Maximum 8';
+        statusText.className = 'status-text status-error';
+      } else {
+        statusText.textContent = `Parfait ! Votre deck est prêt (${count}/8)`;
+        statusText.className = 'status-text status-success';
+      }
+    }
+  }
+
+  // Añadir listener a cada checkbox
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', updateDeck);
+  });
+
+  // Estado inicial
+  updateDeck();
+});
+</script>
+{% endblock %}

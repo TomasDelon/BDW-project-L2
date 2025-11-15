@@ -623,3 +623,832 @@ footer a:hover {
         text-align: center;
     }
 }
+
+/* ============================================
+   Création d'équipe - Style Clash Royale
+   ============================================ */
+.create-team-section {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.team-creation-form {
+    background: rgba(37, 37, 64, 0.6);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(62, 65, 164, 0.3);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: var(--accent-cyan);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(15, 15, 26, 0.7);
+    border: 2px solid var(--primary-blue);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.form-group small {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.deck-info {
+    background: linear-gradient(135deg, rgba(165, 1, 28, 0.2) 0%, rgba(62, 65, 164, 0.2) 100%);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+    border: 2px solid var(--primary-red);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.deck-counter {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.deck-counter #selected-count {
+    color: var(--accent-cyan);
+    font-size: 1.5rem;
+}
+
+.deck-status {
+    flex: 1;
+    text-align: center;
+}
+
+.status-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.status-warning {
+    color: #ffc800;
+    background: rgba(255, 200, 0, 0.2);
+    border: 2px solid #ffc800;
+}
+
+.status-error {
+    color: var(--primary-red);
+    background: rgba(165, 1, 28, 0.2);
+    border: 2px solid var(--primary-red);
+}
+
+.status-success {
+    color: #00c864;
+    background: rgba(0, 200, 100, 0.2);
+    border: 2px solid #00c864;
+}
+
+.morpions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.morpion-card {
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(37, 37, 64, 0.8) 100%);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.morpion-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 8px 24px rgba(0, 255, 255, 0.4);
+}
+
+.morpion-card.selected {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+}
+
+.morpion-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-label {
+    display: block;
+    cursor: pointer;
+}
+
+.card-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.morpion-card:hover .card-image-container img {
+    transform: scale(1.1);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.morpion-card.selected .card-overlay {
+    opacity: 1;
+    background: rgba(255, 215, 0, 0.3);
+}
+
+.card-checkmark {
+    font-size: 4rem;
+    color: var(--accent-gold);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    font-weight: 700;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.card-name {
+    color: var(--accent-cyan);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(15, 15, 26, 0.5);
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid rgba(62, 65, 164, 0.3);
+}
+
+.stat-icon {
+    font-size: 1.2rem;
+}
+
+.stat-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.card-total {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(62, 65, 164, 0.3);
+}
+
+.card-total strong {
+    color: var(--accent-gold);
+    font-size: 1.1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn-create-team,
+.btn-reset {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-create-team {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--red-dark) 100%);
+    color: var(--text-primary);
+    box-shadow: 0 4px 12px var(--shadow-red);
+}
+
+.btn-create-team:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(165, 1, 28, 0.5);
+}
+
+.btn-create-team:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-reset {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
+    color: var(--text-primary);
+    box-shadow: 0 4px 12px var(--shadow-glow);
+}
+
+.btn-reset:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(62, 65, 164, 0.5);
+}
+
+/* Responsive pour les cartes */
+@media (max-width: 968px) {
+    .morpions-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .card-image-container {
+        height: 150px;
+    }
+    
+    .deck-info {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .morpions-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .card-image-container {
+        height: 120px;
+    }
+    
+    .card-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-create-team,
+    .btn-reset {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   Liste des équipes
+   ============================================ */
+.teams-list-section {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.team-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(37, 37, 64, 0.8) 100%);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 2px solid rgba(62, 65, 164, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(62, 65, 164, 0.4);
+    border-color: var(--accent-cyan);
+}
+
+.team-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(62, 65, 164, 0.3);
+}
+
+.team-color-badge-large {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid var(--text-primary);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+.team-info {
+    flex: 1;
+}
+
+.team-name {
+    color: var(--accent-cyan);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.team-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.team-color-label strong {
+    color: var(--text-primary);
+}
+
+.team-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.team-morpions {
+    margin-bottom: 1.5rem;
+}
+
+.morpions-header {
+    margin-bottom: 1rem;
+}
+
+.morpions-header h4 {
+    color: var(--accent-gold);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.morpions-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.75rem;
+}
+
+.morpion-mini-card {
+    background: rgba(15, 15, 26, 0.5);
+    border-radius: 8px;
+    padding: 0.5rem;
+    border: 1px solid rgba(62, 65, 164, 0.3);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.morpion-mini-card:hover {
+    background: rgba(62, 65, 164, 0.3);
+    border-color: var(--accent-cyan);
+    transform: scale(1.05);
+}
+
+.morpion-mini-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+    border: 2px solid var(--primary-blue);
+}
+
+.morpion-mini-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.morpion-mini-name {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.morpion-mini-stats {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.no-morpions {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 1rem;
+    font-style: italic;
+}
+
+.team-actions {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    border-top: 2px solid rgba(62, 65, 164, 0.3);
+}
+
+.delete-form {
+    margin: 0;
+}
+
+.btn-delete {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--red-dark) 100%);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px var(--shadow-red);
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(165, 1, 28, 0.5);
+    background: linear-gradient(135deg, var(--red-light) 0%, var(--primary-red) 100%);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(37, 37, 64, 0.5);
+    border-radius: 15px;
+    border: 2px dashed rgba(62, 65, 164, 0.3);
+}
+
+.empty-state .empty-message {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.btn-create-link {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-glow);
+}
+
+.btn-create-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(62, 65, 164, 0.5);
+}
+
+/* Responsive pour la liste des équipes */
+@media (max-width: 968px) {
+    .teams-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .morpions-mini-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .teams-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .morpions-mini-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    }
+}
+
+/* ============================================
+   Styles pour les parties associées aux équipes
+   ============================================ */
+
+.team-games {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(15, 15, 26, 0.4);
+    border-radius: 10px;
+    border: 1px solid rgba(62, 65, 164, 0.3);
+}
+
+.games-header {
+    margin-bottom: 1rem;
+}
+
+.games-header h4 {
+    color: var(--accent-gold);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.games-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.game-item {
+    background: rgba(37, 37, 64, 0.6);
+    border-radius: 8px;
+    padding: 0.75rem;
+    border-left: 3px solid var(--primary-blue);
+    transition: all 0.2s ease;
+}
+
+.game-item:hover {
+    background: rgba(62, 65, 164, 0.3);
+    border-left-color: var(--accent-cyan);
+}
+
+.game-teams {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.game-team {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.vs {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.game-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.game-date {
+    color: var(--text-secondary);
+}
+
+.game-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.game-status.finished {
+    background: rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+}
+
+.game-status.ongoing {
+    background: rgba(255, 215, 0, 0.2);
+    color: var(--accent-gold);
+}
+
+.game-winner {
+    color: var(--accent-gold);
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.game-config {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+/* ============================================
+   Dialogue de confirmation de suppression
+   ============================================ */
+
+.confirmation-dialog {
+    background: rgba(15, 15, 26, 0.95);
+    border: 3px solid var(--primary-red);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 32px rgba(165, 1, 28, 0.5);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.confirmation-content h3 {
+    color: var(--primary-red);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.confirmation-message {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.confirmation-message strong {
+    color: var(--accent-cyan);
+}
+
+.games-to-delete {
+    background: rgba(37, 37, 64, 0.6);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(62, 65, 164, 0.3);
+}
+
+.games-to-delete h4 {
+    color: var(--accent-gold);
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.games-list-confirm {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.games-list-confirm li {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background: rgba(15, 15, 26, 0.5);
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-blue);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.games-list-confirm li:last-child {
+    margin-bottom: 0;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.confirm-delete-form,
+.cancel-delete-form {
+    margin: 0;
+}
+
+.btn-confirm-delete {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--red-dark) 100%);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px var(--shadow-red);
+}
+
+.btn-confirm-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(165, 1, 28, 0.5);
+    background: linear-gradient(135deg, var(--red-light) 0%, var(--primary-red) 100%);
+}
+
+.btn-cancel-delete {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px var(--shadow-glow);
+}
+
+.btn-cancel-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(62, 65, 164, 0.5);
+    background: linear-gradient(135deg, var(--blue-light) 0%, var(--primary-blue) 100%);
+}
+
+/* Responsive pour le dialogue de confirmation */
+@media (max-width: 600px) {
+    .confirmation-dialog {
+        padding: 1.5rem;
+    }
+    
+    .confirmation-actions {
+        flex-direction: column;
+    }
+    
+    .btn-confirm-delete,
+    .btn-cancel-delete {
+        width: 100%;
+    }
+}
